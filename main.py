@@ -175,10 +175,11 @@ def run_web():
     app.run(host='0.0.0.0', port=port)
 
 def main():
-   t = threading.Thread(target=run_web)
+    t = threading.Thread(target=run_web)
     t.daemon = True
     t.start()
 
+    TOKEN = "91/1506250:AAEvW8p4SXuOhJlWkrNsIkuzpyq8rtErQ23zc"
     TOKEN = "91/1506250:AAEvW8p4SXuOhJlWkrNsIkuzpyq8rtErQ23zc"
 
     if os.path.exists("out"):
