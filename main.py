@@ -1,4 +1,6 @@
-
+from flask import Flask
+import threading
+import os
 import logging
 import os
 import shutil
@@ -162,12 +164,28 @@ async def menu_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
     await update.message.reply_text("✨ MENU CHÍNH ✨\nChọn lệnh nhanh:", reply_markup=reply_markup)
 
 # ===================== MAIN =====================
+app = Flask('')
+
+@app.route('/')
+def home():
+    return "Bot is running!"
+
+def run_web():
+    port = int(os.environ.get("PORT", 10000))
+    app.run(host='0.0.0.0', port=port)
 
 def main():
-    TOKEN = "9171506250:AAEVw8p4SXuOhJtWkrNslkuzpq8rErQ23Zc"
+   t = threading.Thread(target=run_web)
+    t.daemon = True
+    t.start()
+
+    TOKEN = "91/1506250:AAEvW8p4SXuOhJlWkrNsIkuzpyq8rtErQ23zc"
 
     if os.path.exists("out"):
-        shutil.rmtree("out")
+        try:
+            shutil.rmtree("out")
+        except PermissionError:
+            pass
 
     application = ApplicationBuilder().token(TOKEN).build()
 
@@ -175,10 +193,9 @@ def main():
     application.add_handler(CommandHandler("help", help_command))
     application.add_handler(CommandHandler("account", account_command))
     application.add_handler(CommandHandler("menu", menu_command))
-
+    
     logging.basicConfig(level=logging.CRITICAL)
-
-    print("✅ Bot MB Fake Bill chỉ chạy trong các group:", ALLOWED_CHAT_IDS)  # ✅ fix in log
+    print("Bot MB Fake Bill chạy thành công!")
     application.run_polling()
 
 if __name__ == "__main__":
