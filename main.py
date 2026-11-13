@@ -180,7 +180,7 @@ def main():
     t.start()
 
     TOKEN = "9171506250:AAEVw8p4SXuOhJtWkrNslkuzpq8rErQ23Zc"
-    TOKEN = "9171506250:AAEvW8p4SXuOhJlWkrNsIkuzpyq8rtErQ23zc"
+    TOKEN = "9171506250:AAEVw8p4SXuOhJtWkrNslkuzpq8rErQ23Zc"
 
     if os.path.exists("out"):
         try:
