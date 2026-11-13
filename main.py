@@ -95,16 +95,23 @@ async def mb_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
     full_text = " ".join(context.args)
     parts = full_text.split("|")
 
-    if len(parts) != 5:
+    if len(parts) != 4:
         await update.message.reply_text(
             "❌ Sai cú pháp.\n"
-            "✅ Đúng: /mb <số tiền> | <giờ:phút> | <tên người nhận> | <STK> | <nội dung chuyển khoản>"
+            "✅ Đúng: /mb <số tiền> | <tên người nhận> | <STK> | <nội dung chuyển khoản>"
         )
         return
 
     try:
         sotienchuyen = float(parts[0].strip().replace(',', ''))
-        gio_phut = parts[1].strip()
+        
+        # SỬA TẠI ĐÂY: Lấy ngày và giờ phút hiện tại trực tiếp từ hệ thống
+        now = datetime.now()
+        gio_phut = now.strftime("%H:%M")          # Lấy giờ:phút thực tế (ví dụ: 06:42)
+        ngay_hom_nay = now.strftime("%d/%m/%Y")    # Lấy ngày/tháng/năm thực tế
+        
+        thoigianchuyen = f"{gio_phut} - {ngay_hom_nay}"
+        
         tennguoinhan = parts[2].strip()
         stk = parts[3].strip()
         noidungchuyen = parts[4].strip()
