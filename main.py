@@ -103,21 +103,21 @@ async def mb_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
         return
 
     try:
-        sotienchuyen = float(parts[0].strip().replace(',', ''))
-        
-        # SỬA TẠI ĐÂY: Lấy ngày và giờ phút hiện tại trực tiếp từ hệ thống
-        now = datetime.now()
-        gio_phut = now.strftime("%H:%M")          # Lấy giờ:phút thực tế (ví dụ: 06:42)
-        ngay_hom_nay = now.strftime("%d/%m/%Y")    # Lấy ngày/tháng/năm thực tế
-        
-        thoigianchuyen = f"{gio_phut} - {ngay_hom_nay}"
-        
-        tennguoinhan = parts[2].strip()
-        stk = parts[3].strip()
-        noidungchuyen = parts[4].strip()
+       sotienchuyen = float(parts[0].strip().replace(",", ""))
+
+now = datetime.now()
+gio_phut = now.strftime("%H:%M")
+ngay_hom_nay = now.strftime("%d/%m/%Y")
+thoigianchuyen = f"{gio_phut} - {ngay_hom_nay}"
+
+# Sửa lại index cho đúng thứ tự:
+tennguoinhan = parts[1].strip()  # parts[1] là tên người nhận
+stk = parts[2].strip()  # parts[2] là STK
+noidung = parts[3].strip()  # parts[3] là nội dung chuyển khoản
+
     except Exception as e:
-        await update.message.reply_text(f"Lỗi xử lý tham số: {e}")
-        return
+    await update.message.reply_text(f"Lỗi xử lý tham số: {e}")
+    return
 
     ngay_hom_nay = datetime.now().strftime("%d/%m/%Y")
     thoigianchuyen = f"{gio_phut} - {ngay_hom_nay}"
