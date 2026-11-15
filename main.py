@@ -92,7 +92,7 @@ def check_chat(update: Update) -> bool:
 # /mb
 async def mb_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
     if not check_chat(update):
-        return  # bỏ qua nếu không phải group cho phép
+        return
 
     full_text = " ".join(context.args)
     parts = full_text.split("|")
@@ -114,11 +114,14 @@ async def mb_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
         tennguoinhan = parts[1].strip()
         stk = parts[2].strip()
-        noidung = parts[3].strip()
+        noidungchuyen = parts[3].strip()
 
     except Exception as e:
-        await update.message.reply_text(f"Lỗi xử lý tham số: {e}")
+        await update.message.reply_text(
+            f"❌ Lỗi xử lý tham số: {e}"
+        )
         return
+
     try:
         image_path = create_image_with_texts(
             sotienchuyen,
@@ -127,13 +130,22 @@ async def mb_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
             stk,
             noidungchuyen
         )
+
     except Exception as e:
-        await update.message.reply_text(f"Lỗi khi tạo ảnh: {e}")
+        await update.message.reply_text(
+            f"❌ Lỗi khi tạo ảnh: {e}"
+        )
         return
 
-    with open(image_path, "rb") as photo:
-        await update.message.reply_photo(photo)
+    try:
+        with open(image_path, "rb") as photo:
+            await update.message.reply_photo(photo)
 
+    except Exception as e:
+        await update.message.reply_text(
+            f"❌ Lỗi gửi ảnh: {e}"
+        )
+        return
 # /help
 async def help_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
     if not check_chat(update):
@@ -146,7 +158,6 @@ async def help_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
         "- /menu : Mở menu",
         parse_mode="Markdown"
     )
-
 # /account
 async def account_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
     if not check_chat(update):
