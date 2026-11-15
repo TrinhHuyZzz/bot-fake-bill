@@ -107,10 +107,8 @@ async def mb_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
     try:
         sotienchuyen = float(parts[0].strip().replace(",", ""))
 
-        now = datetime.now()
-        gio_phut = now.strftime("%H:%M")
-        ngay_hom_nay = now.strftime("%d/%m/%Y")
-        thoigianchuyen = f"{gio_phut} - {ngay_hom_nay}"
+        now = datetime.now(ZoneInfo("Asia/Ho_Chi_Minh"))
+        thoigianchuyen = now.strftime("%H:%M - %d/%m/%Y")
 
         tennguoinhan = parts[1].strip()
         stk = parts[2].strip()
@@ -130,7 +128,6 @@ async def mb_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
             stk,
             noidungchuyen
         )
-
     except Exception as e:
         await update.message.reply_text(
             f"❌ Lỗi khi tạo ảnh: {e}"
@@ -140,7 +137,6 @@ async def mb_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
     try:
         with open(image_path, "rb") as photo:
             await update.message.reply_photo(photo)
-
     except Exception as e:
         await update.message.reply_text(
             f"❌ Lỗi gửi ảnh: {e}"
