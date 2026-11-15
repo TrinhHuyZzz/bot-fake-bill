@@ -1,3 +1,5 @@
+from turtle import update
+
 from flask import Flask
 import threading
 import os
@@ -103,25 +105,20 @@ async def mb_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
         return
 
     try:
-       sotienchuyen = float(parts[0].strip().replace(",", ""))
+        sotienchuyen = float(parts[0].strip().replace(",", ""))
 
-now = datetime.now()
-gio_phut = now.strftime("%H:%M")
-ngay_hom_nay = now.strftime("%d/%m/%Y")
-thoigianchuyen = f"{gio_phut} - {ngay_hom_nay}"
+        now = datetime.now()
+        gio_phut = now.strftime("%H:%M")
+        ngay_hom_nay = now.strftime("%d/%m/%Y")
+        thoigianchuyen = f"{gio_phut} - {ngay_hom_nay}"
 
-# Sửa lại index cho đúng thứ tự:
-tennguoinhan = parts[1].strip()  # parts[1] là tên người nhận
-stk = parts[2].strip()  # parts[2] là STK
-noidung = parts[3].strip()  # parts[3] là nội dung chuyển khoản
+        tennguoinhan = parts[1].strip()
+        stk = parts[2].strip()
+        noidung = parts[3].strip()
 
     except Exception as e:
-    await update.message.reply_text(f"Lỗi xử lý tham số: {e}")
-    return
-
-    ngay_hom_nay = datetime.now().strftime("%d/%m/%Y")
-    thoigianchuyen = f"{gio_phut} - {ngay_hom_nay}"
-
+        await update.message.reply_text(f"Lỗi xử lý tham số: {e}")
+        return
     try:
         image_path = create_image_with_texts(
             sotienchuyen,
@@ -141,6 +138,7 @@ noidung = parts[3].strip()  # parts[3] là nội dung chuyển khoản
 async def help_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
     if not check_chat(update):
         return
+
     await update.message.reply_text(
         "📖 *Hướng dẫn sử dụng:*\n"
         "- /mb : Tạo ảnh MB\n"
@@ -171,7 +169,7 @@ async def menu_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
     await update.message.reply_text("✨ MENU CHÍNH ✨\nChọn lệnh nhanh:", reply_markup=reply_markup)
 
 # ===================== MAIN =====================
-app = Flask('')
+app = Flask(__name__)
 
 @app.route('/')
 def home():
