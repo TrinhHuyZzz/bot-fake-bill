@@ -10,7 +10,7 @@ import uuid
 from PIL import Image, ImageDraw, ImageFont
 from telegram import Update, ReplyKeyboardMarkup, KeyboardButton
 from telegram.ext import ApplicationBuilder, CommandHandler, ContextTypes
-from datetime import datetime
+from datetime import datetime, timedelta
 
 # ===================== CẤU HÌNH =====================
 # Cho phép nhiều group ID dùng bot
@@ -107,7 +107,7 @@ async def mb_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
     try:
         sotienchuyen = float(parts[0].strip().replace(",", ""))
 
-        now = datetime.now(ZoneInfo("Asia/Ho_Chi_Minh"))
+        now = datetime.utcnow() + timedelta(hours=7)
         thoigianchuyen = now.strftime("%H:%M - %d/%m/%Y")
 
         tennguoinhan = parts[1].strip()
